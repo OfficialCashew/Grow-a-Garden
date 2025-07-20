@@ -121,7 +121,7 @@ updateLabel.Parent = scrollingFrame
 
 local noteLabel = Instance.new("TextLabel")
 noteLabel.Text = "Version 1.0: Initial release\nVersion 1.1: Added auto-buy feature\nVersion 1.2: Enhanced UI"
-noteLabel.Size = UDim2.new(1, 0, 0, 100シート
+noteLabel.Size = UDim2.new(1, 0, 0, 100)
 noteLabel.Position = UDim2.new(0, 0, 0, 30)
 noteLabel.TextWrapped = true
 noteLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
