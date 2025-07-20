@@ -7,9 +7,9 @@ local autoBuyEnabled = false
 local defaultColor = Color3.fromRGB(50, 50, 50)
 local selectedColor = Color3.fromRGB(100, 100, 100)
 local items = {
-    "Carrot", "Strawberry", "Blueberry", "Orange Tulip", "Tomato", "Corn", "Daffodil", 
-    "Watermelon", "Pumpkin", "Apple", "Bamboo", "Coconut", "Cactus", "Dragon Fruit", 
-    "Mango", "Grape", "Mushroom", "Pepper", "Cacao", "Beanstalk", "Ember Lily", 
+    "Carrot", "Strawberry", "Blueberry", "Orange Tulip", "Tomato", "Corn", "Daffodil",
+    "Watermelon", "Pumpkin", "Apple", "Bamboo", "Coconut", "Cactus", "Dragon Fruit",
+    "Mango", "Grape", "Mushroom", "Pepper", "Cacao", "Beanstalk", "Ember Lily",
     "Sugar Apple", "Burning Bud", "Giant Pinecone"
 }
 
@@ -45,34 +45,24 @@ uiListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 uiListLayout.Padding = UDim.new(0, 5)
 
 -- Create tab buttons
-local mainTabButton = Instance.new("TextButton")
-mainTabButton.Text = "Main"
-mainTabButton.Size = UDim2.new(1, 0, 0, 50)
-mainTabButton.BackgroundColor3 = selectedColor
-mainTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-mainTabButton.Parent = tabFrame
-mainTabButton.BorderSizePixel = 0
 local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(0, 8)
-corner.Parent = mainTabButton
 
-local playerTabButton = Instance.new("TextButton")
-playerTabButton.Text = "Player"
-playerTabButton.Size = UDim2.new(1, 0, 0, 50)
-playerTabButton.BackgroundColor3 = defaultColor
-playerTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-playerTabButton.Parent = tabFrame
-playerTabButton.BorderSizePixel = 0
-corner:Clone().Parent = playerTabButton
+local function createTabButton(name, selected)
+    local button = Instance.new("TextButton")
+    button.Text = name
+    button.Size = UDim2.new(1, 0, 0, 50)
+    button.BackgroundColor3 = selected and selectedColor or defaultColor
+    button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    button.Parent = tabFrame
+    button.BorderSizePixel = 0
+    corner:Clone().Parent = button
+    return button
+end
 
-local shopTabButton = Instance.new("TextButton")
-shopTabButton.Text = "Shop"
-shopTabButton.Size = UDim2.new(1, 0, 0, 50)
-shopTabButton.BackgroundColor3 = defaultColor
-shopTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-shopTabButton.Parent = tabFrame
-shopTabButton.BorderSizePixel = 0
-corner:Clone().Parent = shopTabButton
+local mainTabButton = createTabButton("Main", true)
+local playerTabButton = createTabButton("Player", false)
+local shopTabButton = createTabButton("Shop", false)
 
 -- Create content frame
 local contentFrame = Instance.new("Frame")
@@ -82,28 +72,22 @@ contentFrame.BackgroundTransparency = 1
 contentFrame.Parent = mainFrame
 
 -- Create sub-content frames
-local mainContent = Instance.new("Frame")
-mainContent.Size = UDim2.new(1, 0, 1, 0)
-mainContent.Position = UDim2.new(0, 0, 0, 0)
-mainContent.BackgroundTransparency = 1
-mainContent.Parent = contentFrame
+local function createContentFrame()
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(1, 0, 1, 0)
+    frame.Position = UDim2.new(0, 0, 0, 0)
+    frame.BackgroundTransparency = 1
+    frame.Visible = false
+    frame.Parent = contentFrame
+    return frame
+end
+
+local mainContent = createContentFrame()
+local playerContent = createContentFrame()
+local shopContent = createContentFrame()
 mainContent.Visible = true
 
-local playerContent = Instance.new("Frame")
-playerContent.Size = UDim2.new(1, 0, 1, 0)
-playerContent.Position = UDim2.new(0, 0, 0, 0)
-playerContent.BackgroundTransparency = 1
-playerContent.Parent = contentFrame
-playerContent.Visible = false
-
-local shopContent = Instance.new("Frame")
-shopContent.Size = UDim2.new(1, 0, 1, 0)
-shopContent.Position = UDim2.new(0, 0, 0, 0)
-shopContent.BackgroundTransparency = 1
-shopContent.Parent = contentFrame
-shopContent.Visible = false
-
--- Main tab content (Update Log)
+-- Main tab content
 local scrollingFrame = Instance.new("ScrollingFrame")
 scrollingFrame.Size = UDim2.new(0.9, 0, 0.9, 0)
 scrollingFrame.Position = UDim2.new(0.05, 0, 0.05, 0)
@@ -284,11 +268,11 @@ autoBuyToggleButton.Activated:Connect(function()
         autoBuyEnabled = true
         autoBuyToggleButton.Text = "Stop Auto-Buy"
         autoBuyToggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-        spawn(function()
+        task.spawn(function()
             while autoBuyEnabled do
                 local args = {selectedItem}
                 game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuySeedStock"):FireServer(unpack(args))
-                wait(0.1)
+                task.wait(0.1)
             end
         end)
     end
