@@ -1,4 +1,3 @@
--- Updated :D
 -- Define variables
 local desiredSpeed = 16
 local desiredJump = 50
