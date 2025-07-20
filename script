@@ -1,1 +1,303 @@
--- Nothing right now :D
+-- Updated :D
+-- Define variables
+local desiredSpeed = 16
+local desiredJump = 50
+local invisibilityEnabled = false
+local selectedItem = "Carrot"
+local autoBuyEnabled = false
+local defaultColor = Color3.fromRGB(50, 50, 50)
+local selectedColor = Color3.fromRGB(100, 100, 100)
+local items = {
+    "Carrot", "Strawberry", "Blueberry", "Orange Tulip", "Tomato", "Corn", "Daffodil", 
+    "Watermelon", "Pumpkin", "Apple", "Bamboo", "Coconut", "Cactus", "Dragon Fruit", 
+    "Mango", "Grape", "Mushroom", "Pepper", "Cacao", "Beanstalk", "Ember Lily", 
+    "Sugar Apple", "Burning Bud", "Giant Pinecone"
+}
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer.PlayerGui
+
+-- Create main frame
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(1, 0, 1, 0)
+mainFrame.Position = UDim2.new(0, 0, 0, 0)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+mainFrame.Parent = screenGui
+
+-- Add gradient background
+local background = Instance.new("UIGradient")
+background.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(30, 30, 30)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(60, 60, 60))
+})
+background.Parent = mainFrame
+
+-- Create tab frame
+local tabFrame = Instance.new("Frame")
+tabFrame.Size = UDim2.new(0.2, 0, 1, 0)
+tabFrame.Position = UDim2.new(0, 0, 0, 0)
+tabFrame.BackgroundTransparency = 1
+tabFrame.Parent = mainFrame
+
+local uiListLayout = Instance.new("UIListLayout")
+uiListLayout.Parent = tabFrame
+uiListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+uiListLayout.Padding = UDim.new(0, 5)
+
+-- Create tab buttons
+local mainTabButton = Instance.new("TextButton")
+mainTabButton.Text = "Main"
+mainTabButton.Size = UDim2.new(1, 0, 0, 50)
+mainTabButton.BackgroundColor3 = selectedColor
+mainTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+mainTabButton.Parent = tabFrame
+mainTabButton.BorderSizePixel = 0
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 8)
+corner.Parent = mainTabButton
+
+local playerTabButton = Instance.new("TextButton")
+playerTabButton.Text = "Player"
+playerTabButton.Size = UDim2.new(1, 0, 0, 50)
+playerTabButton.BackgroundColor3 = defaultColor
+playerTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+playerTabButton.Parent = tabFrame
+playerTabButton.BorderSizePixel = 0
+corner:Clone().Parent = playerTabButton
+
+local shopTabButton = Instance.new("TextButton")
+shopTabButton.Text = "Shop"
+shopTabButton.Size = UDim2.new(1, 0, 0, 50)
+shopTabButton.BackgroundColor3 = defaultColor
+shopTabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+shopTabButton.Parent = tabFrame
+shopTabButton.BorderSizePixel = 0
+corner:Clone().Parent = shopTabButton
+
+-- Create content frame
+local contentFrame = Instance.new("Frame")
+contentFrame.Size = UDim2.new(0.8, 0, 1, 0)
+contentFrame.Position = UDim2.new(0.2, 0, 0, 0)
+contentFrame.BackgroundTransparency = 1
+contentFrame.Parent = mainFrame
+
+-- Create sub-content frames
+local mainContent = Instance.new("Frame")
+mainContent.Size = UDim2.new(1, 0, 1, 0)
+mainContent.Position = UDim2.new(0, 0, 0, 0)
+mainContent.BackgroundTransparency = 1
+mainContent.Parent = contentFrame
+mainContent.Visible = true
+
+local playerContent = Instance.new("Frame")
+playerContent.Size = UDim2.new(1, 0, 1, 0)
+playerContent.Position = UDim2.new(0, 0, 0, 0)
+playerContent.BackgroundTransparency = 1
+playerContent.Parent = contentFrame
+playerContent.Visible = false
+
+local shopContent = Instance.new("Frame")
+shopContent.Size = UDim2.new(1, 0, 1, 0)
+shopContent.Position = UDim2.new(0, 0, 0, 0)
+shopContent.BackgroundTransparency = 1
+shopContent.Parent = contentFrame
+shopContent.Visible = false
+
+-- Main tab content (Update Log)
+local scrollingFrame = Instance.new("ScrollingFrame")
+scrollingFrame.Size = UDim2.new(0.9, 0, 0.9, 0)
+scrollingFrame.Position = UDim2.new(0.05, 0, 0.05, 0)
+scrollingFrame.CanvasSize = UDim2.new(0, 0, 2, 0)
+scrollingFrame.BackgroundTransparency = 1
+scrollingFrame.Parent = mainContent
+
+local updateLabel = Instance.new("TextLabel")
+updateLabel.Text = "Update Log"
+updateLabel.Size = UDim2.new(1, 0, 0, 30)
+updateLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+updateLabel.Font = Enum.Font.SourceSansBold
+updateLabel.TextSize = 24
+updateLabel.Parent = scrollingFrame
+
+local noteLabel = Instance.new("TextLabel")
+noteLabel.Text = "Version 1.0: Initial release\nVersion 1.1: Added auto-buy feature\nVersion 1.2: Enhanced UI"
+noteLabel.Size = UDim2.new(1, 0, 0, 100シート
+noteLabel.Position = UDim2.new(0, 0, 0, 30)
+noteLabel.TextWrapped = true
+noteLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+noteLabel.Parent = scrollingFrame
+
+-- Player tab content
+local speedLabel = Instance.new("TextLabel")
+speedLabel.Text = "Speed:"
+speedLabel.Size = UDim2.new(0.2, 0, 0.1, 0)
+speedLabel.Position = UDim2.new(0.05, 0, 0.05, 0)
+speedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+speedLabel.Parent = playerContent
+
+local speedTextBox = Instance.new("TextBox")
+speedTextBox.Size = UDim2.new(0.2, 0, 0.1, 0)
+speedTextBox.Position = UDim2.new(0.25, 0, 0.05, 0)
+speedTextBox.Text = tostring(desiredSpeed)
+speedTextBox.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+speedTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+speedTextBox.Parent = playerContent
+
+local jumpLabel = Instance.new("TextLabel")
+jumpLabel.Text = "Jump Height:"
+jumpLabel.Size = UDim2.new(0.2, 0, 0.1, 0)
+jumpLabel.Position = UDim2.new(0.05, 0, 0.2, 0)
+jumpLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+jumpLabel.Parent = playerContent
+
+local jumpTextBox = Instance.new("TextBox")
+jumpTextBox.Size = UDim2.new(0.2, 0, 0.1, 0)
+jumpTextBox.Position = UDim2.new(0.25, 0, 0.2, 0)
+jumpTextBox.Text = tostring(desiredJump)
+jumpTextBox.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+jumpTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+jumpTextBox.Parent = playerContent
+
+local invisibilityToggle = Instance.new("TextButton")
+invisibilityToggle.Text = "Enable Invisibility"
+invisibilityToggle.Size = UDim2.new(0.3, 0, 0.1, 0)
+invisibilityToggle.Position = UDim2.new(0.05, 0, 0.35, 0)
+invisibilityToggle.BackgroundColor3 = defaultColor
+invisibilityToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+invisibilityToggle.Parent = playerContent
+corner:Clone().Parent = invisibilityToggle
+
+-- Shop tab content
+local selectItemButton = Instance.new("TextButton")
+selectItemButton.Text = "Selected: " .. selectedItem
+selectItemButton.Size = UDim2.new(0.3, 0, 0.1, 0)
+selectItemButton.Position = UDim2.new(0.05, 0, 0.05, 0)
+selectItemButton.BackgroundColor3 = defaultColor
+selectItemButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+selectItemButton.Parent = shopContent
+corner:Clone().Parent = selectItemButton
+
+local dropdownFrame = Instance.new("Frame")
+dropdownFrame.Size = UDim2.new(0.3, 0, 0.5, 0)
+dropdownFrame.Position = UDim2.new(0.05, 0, 0.15, 0)
+dropdownFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+dropdownFrame.Visible = false
+dropdownFrame.Parent = shopContent
+
+local uiListLayoutDropdown = Instance.new("UIListLayout")
+uiListLayoutDropdown.Parent = dropdownFrame
+uiListLayoutDropdown.Padding = UDim.new(0, 2)
+
+for _, item in pairs(items) do
+    local itemButton = Instance.new("TextButton")
+    itemButton.Text = item
+    itemButton.Size = UDim2.new(1, 0, 0, 30)
+    itemButton.BackgroundColor3 = defaultColor
+    itemButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    itemButton.Parent = dropdownFrame
+    itemButton.BorderSizePixel = 0
+    corner:Clone().Parent = itemButton
+    itemButton.Activated:Connect(function()
+        selectedItem = item
+        selectItemButton.Text = "Selected: " .. item
+        dropdownFrame.Visible = false
+    end)
+end
+
+local autoBuyToggleButton = Instance.new("TextButton")
+autoBuyToggleButton.Text = "Start Auto-Buy"
+autoBuyToggleButton.Size = UDim2.new(0.3, 0, 0.1, 0)
+autoBuyToggleButton.Position = UDim2.new(0.05, 0, 0.7, 0)
+autoBuyToggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+autoBuyToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+autoBuyToggleButton.Parent = shopContent
+corner:Clone().Parent = autoBuyToggleButton
+
+-- Functions
+local function applyModifications()
+    local character = game.Players.LocalPlayer.Character
+    if character then
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.WalkSpeed = desiredSpeed
+            humanoid.JumpPower = desiredJump
+            local transparency = invisibilityEnabled and 1 or 0
+            for _, part in pairs(character:GetDescendants()) do
+                if part:IsA("BasePart") then
+                    part.Transparency = transparency
+                end
+            end
+        end
+    end
+end
+
+local function switchTab(tabName)
+    mainContent.Visible = (tabName == "Main")
+    playerContent.Visible = (tabName == "Player")
+    shopContent.Visible = (tabName == "Shop")
+    mainTabButton.BackgroundColor3 = tabName == "Main" and selectedColor or defaultColor
+    playerTabButton.BackgroundColor3 = tabName == "Player" and selectedColor or defaultColor
+    shopTabButton.BackgroundColor3 = tabName == "Shop" and selectedColor or defaultColor
+end
+
+-- Events
+mainTabButton.Activated:Connect(function() switchTab("Main") end)
+playerTabButton.Activated:Connect(function() switchTab("Player") end)
+shopTabButton.Activated:Connect(function() switchTab("Shop") end)
+
+speedTextBox.FocusLost:Connect(function()
+    local speed = tonumber(speedTextBox.Text)
+    if speed then
+        desiredSpeed = speed
+        applyModifications()
+    else
+        speedTextBox.Text = tostring(desiredSpeed)
+    end
+end)
+
+jumpTextBox.FocusLost:Connect(function()
+    local jump = tonumber(jumpTextBox.Text)
+    if jump then
+        desiredJump = jump
+        applyModifications()
+    else
+        jumpTextBox.Text = tostring(desiredJump)
+    end
+end)
+
+invisibilityToggle.Activated:Connect(function()
+    invisibilityEnabled = not invisibilityEnabled
+    invisibilityToggle.Text = invisibilityEnabled and "Disable Invisibility" or "Enable Invisibility"
+    applyModifications()
+end)
+
+selectItemButton.Activated:Connect(function()
+    dropdownFrame.Visible = not dropdownFrame.Visible
+end)
+
+autoBuyToggleButton.Activated:Connect(function()
+    if autoBuyEnabled then
+        autoBuyEnabled = false
+        autoBuyToggleButton.Text = "Start Auto-Buy"
+        autoBuyToggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+    else
+        autoBuyEnabled = true
+        autoBuyToggleButton.Text = "Stop Auto-Buy"
+        autoBuyToggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        spawn(function()
+            while autoBuyEnabled do
+                local args = {selectedItem}
+                game:GetService("ReplicatedStorage"):WaitForChild("GameEvents"):WaitForChild("BuySeedStock"):FireServer(unpack(args))
+                wait(0.1)
+            end
+        end)
+    end
+end)
+
+-- Initial setup
+switchTab("Main")
+if game.Players.LocalPlayer.Character then
+    applyModifications()
+end
+game.Players.LocalPlayer.CharacterAdded:Connect(applyModifications)
